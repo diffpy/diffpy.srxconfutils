@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 
-# Installation script for diffpy.pdfgetx
+# Installation script for dpx.confutils
 
-"""dpx.pdfgetxgui
+"""dpx.confutils
 """
 
 from setuptools import setup, find_packages
 
 # define distribution
 dist = setup(
-        name = 'dpx.pdfgetxgui',
+        name = 'dpx.confutils',
         version = '0.1',
         namespace_packages = ['dpx'],
         packages = find_packages(),
@@ -19,13 +19,11 @@ dist = setup(
         dependency_links = [],
         entry_points = {
             # define console_scripts here, see setuptools docs for details.
-            'console_scripts' : ['dpx = dpx.pdfgetxgui.pdfliveui:main'
-                                 ],
         },
 
         author = 'Simon J.L. Billinge',
         author_email = 'sb2896@columbia.edu',
-        description = 'GUI for PDFgetX3, a program calculating PDF from raw x-ray intensities.',
+        description = 'configuration packages for dpx projects',
         license = 'BSD',
         #url = 'http://www.diffpy.org/',
         keywords = 'PDF x-ray Fourier transform',
