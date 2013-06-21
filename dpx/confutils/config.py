@@ -23,7 +23,8 @@ from functools import partial
 import argparse
 from collections import OrderedDict
 
-from dpx.confutils.tools import _configPropertyRad, _configPropertyR, _configPropertyRW, str2bool
+from dpx.confutils.tools import _configPropertyRad, _configPropertyR, _configPropertyRW, \
+                                str2bool, opt2Str, str2Opt, StrConv
 
 class ConfigBase(object):
     '''_optdatalistdefault, _optdatalist are metadata used to initialize the options, see below for examples
@@ -68,7 +69,7 @@ class ConfigBase(object):
     'de': dest
     'co': const
     '''
-    _optdatanamedic = {'h':'help',
+    _optdatanamedict = {'h':'help',
                        't':'type',
                        'a':'action',
                        'n':'nargs',
@@ -202,7 +203,7 @@ class ConfigBase(object):
         
         return: name of config file if found, otherwise None 
         '''
-        rv = self._findConfigFile(filename, args, kwargs)
+        rv = self._findConfigFile(filename, args, **kwargs)
         if rv == None:
             for dconf in self._defaultdata['configfile']:
                 if (os.path.exists(dconf))and(rv == None):
@@ -280,33 +281,6 @@ class ConfigBase(object):
                     opttype = 'boollist'
         return opttype
     
-    def _getType(self, optname):
-        '''detect the type of option
-        param optname: str, name of option
-        
-        return: type of data 
-        '''
-        opttype =self._getTypeC(optname)
-        return opttype
-    
-    @classmethod
-    def _getTypeC(cls, optname):
-        '''detect the type of option
-        param optname: str, name of option
-        
-        return: type of data
-        '''
-        opttype = cls._getTypeStrC(optname)
-        if opttype.startswith('str'):
-           rv = str
-        elif opttype.startswith('float'):
-           rv = float 
-        elif opttype.startswith('int'):
-           rv = int
-        elif opttype.startswith('bool'):
-           rv = str2bool
-        return rv
-    
     ###########################################################################
     
     def _detectAddSections(self):
@@ -355,7 +329,7 @@ class ConfigBase(object):
             optdata['d'] = os.getcwd()
         
         #add to cls.'optname'
-        setattr(cls, optname, optdata['d'])
+        cls._addOptSelfC(optname, optdata)
         
         #add to cls.config
         secname =  optdata['sec'] if optdata.has_key('sec') else 'Others'
@@ -368,10 +342,10 @@ class ConfigBase(object):
             #transform optdata to a dict that can pass to add_argument method
             pargs = dict()
             for key in optdata.keys():
-                if cls._optdatanamedic.has_key(key):
-                    pargs[cls._optdatanamedic[key]] = optdata[key]
+                if cls._optdatanamedict.has_key(key):
+                    pargs[cls._optdatanamedict[key]] = optdata[key]
             pargs['default'] = argparse.SUPPRESS
-            pargs['type'] = cls._getTypeC(optname)
+            pargs['type'] = StrConv(opttype)
             #add args
             if optdata.has_key('f'):
                 cls.args.add_argument(optname, **pargs)
@@ -381,36 +355,30 @@ class ConfigBase(object):
                 cls.args.add_argument('--'+optname, **pargs)
         return
     
+    @classmethod
+    def _addOptSelfC(cls, optname, optdata):
+        setattr(cls, optname, optdata['d'])
+        return
+    
     def _copyConfigtoSelf(self, optnames=None):
         '''copy the values in self.config to self.'options'
         
         param optname: str or list of str, names of options whose value copied from self.config to self.'optname'. 
         Set None to update all
         '''
-        if not hasattr(self, 'mdict'):
-            self.mdict = {
-                'str': self.config.get,
-                'int': self.config.getint,
-                'float': self.config.getfloat,
-                'bool': self.config.getboolean,
-                'strlist': partial(self._getListValue, vtype='strlist'),
-                'intlist': partial(self._getListValue, vtype='intlist'),
-                'floatlist': partial(self._getListValue, vtype='floatlist'),
-                'boollist': partial(self._getListValue, vtype='boollist'),
-                }
         if optnames!=None:
             optnames = optnames if type(optnames)==list else [optnames]
-            for optname in optnames:
-                if self._optdata.has_key(optname):
-                    secname = self._optdata[optname]['sec']
-                    opttype = self._getTypeStr(optname)
-                    setattr(self, optname, self.mdict[opttype](secname, optname))
         else:
+            optnames = []
             for secname in self.config.sections():
-                for optname in self.config.options(secname):
-                    if self._optdata.has_key(optname):
-                        opttype = self._getTypeStr(optname)
-                        setattr(self, optname, self.mdict[opttype](secname, optname))
+                optnames += self.config.options(secname) 
+                    
+        for optname in optnames:
+            if self._optdata.has_key(optname):
+                secname = self._optdata[optname]['sec']
+                opttype = self._getTypeStr(optname)
+                optvalue = self.config.get(secname, optname)
+                setattr(self, optname, str2Opt(opttype, optvalue))
         return
     
     def _copySelftoConfig(self, optnames=None):
@@ -421,51 +389,18 @@ class ConfigBase(object):
         '''
         if optnames!=None:
             optnames = optnames if type(optnames)==list else [optnames]
-            for optname in optnames:
-                if self._optdata.has_key(optname):
-                    secname = self._optdata[optname]['sec']
-                    opttype = self._getTypeStr(optname)
-                    if opttype.endswith('list'):
-                        liststr = map(str, getattr(self, optname))
-                        liststring = ', '.join(liststr)
-                        self.config.set(secname, optname, liststring)
-                    else:
-                        self.config.set(secname, optname, str(getattr(self, optname)))
         else:
+            optnames = []
             for secname in self.config.sections():
-                for optname in self.config.options(secname):
-                    if self._optdata.has_key(optname):
-                        opttype = self._getTypeStr(optname)
-                        if opttype.endswith('list'):
-                            liststr = map(str, getattr(self, optname))
-                            liststring = ', '.join(liststr)
-                            self.config.set(secname, optname, liststring)
-                        else:
-                            self.config.set(secname, optname, str(getattr(self, optname)))
+                optnames += self.config.options(secname) 
+        
+        for optname in optnames:
+            if self._optdata.has_key(optname):
+                secname = self._optdata[optname]['sec']
+                opttype = self._getTypeStr(optname)
+                optvalue = getattr(self, optname)
+                self.config.set(secname, optname, opt2Str(opttype, optvalue))
         return
-    
-    def _getListValue(self, sectionname, optionname, vtype):
-        '''helper function that get a list of value for string read from self.config
-        
-        param sectionname: string, name of section in self.config
-        param optionname: string, name of option in self.config
-        vtype: string, type of list, can be strlist, intlist, floatlist, boollist
-        
-        return: list of value in desired format, or [] if options value is empty
-        ''' 
-        temp = re.split('\s*,\s*', self.config.get(sectionname, optionname))
-        if len(temp)>0:
-            if vtype.startswith('str'):
-                rv = temp
-            elif  vtype.startswith('int'):
-                rv = map(int, temp)
-            elif  vtype.startswith('float'):
-                rv = map(float, temp)
-            elif  vtype.startswith('bool'):
-                rv = map(lambda s: (s.lower()=='true')or(s.lower()=='yes'), temp)
-        else:
-            rv = []
-        return rv
     
     ###########################################################################
     
@@ -530,7 +465,7 @@ class ConfigBase(object):
         # call self._preUpdateConfig
         self._preUpdateConfig(**kwargs)
         
-        filename = self._findConfigFile(filename, args, kwargs)
+        filename = self._findConfigFile(filename, args, **kwargs)
         if filename!=None:
             rv = self.parseConfigFile(filename)
         if args!=None:
@@ -548,13 +483,13 @@ class ConfigBase(object):
         self._createConfigFile()
         return rv
     
-    def _preProcessing(self, **kwargs):
+    def _preUpdateConfig(self, **kwargs):
         '''Method called before parsing args or kwargs or config file, in self.updateConfig
         param kwargs: keywords=value
         '''
         return
     
-    def _postProcessing(self, **kwargs):
+    def _postUpdateConfig(self, **kwargs):
         '''Method called after parsing args or kwargs or config file, in self.updateConfig
         param kwargs: keywords=value
         '''
@@ -642,27 +577,41 @@ class ConfigBase(object):
         rv = "\n".join(lines) + "\n"
         return rv
     
+    ###########################################################################
+    #IMPORTANT call this method if you want to add options as class attributes!!!
+    @classmethod
+    def initConfigClass(cls):
+        '''init config class and add options to class
+        this funtion should be executed to generate options according to metadata defined in class
+        '''
+        cls.config = ConfigParser.ConfigParser(dict_type = OrderedDict)
+        cls.args = argparse.ArgumentParser(description=cls._description, 
+                                              epilog=cls._epilog,
+                                              formatter_class=argparse.RawDescriptionHelpFormatter)
+        cls._configlist = OrderedDict({})
+        
+        cls._optdatalist = cls._optdatalist_default + cls._optdatalist
+        cls._optdata = dict(cls._optdatalist)
+        cls._detectAddSectionsC()
+        for opt in cls._optdatalist:
+            key = opt[0]
+            cls._addOptC(key)
+        return
     
-    
-#IMPORTANT call this function if you want to add options as class attributes!!!
-def initConfigClass(config):
-    '''init config class and add options to class
-    this funtion should be executed to generate options according to metadata defined in class
-    '''
-    config.config = ConfigParser.ConfigParser(dict_type = OrderedDict)
-    config.args = argparse.ArgumentParser(description=config._description, 
-                                          epilog=config._epilog,
-                                          formatter_class=argparse.RawDescriptionHelpFormatter)
-    config._configlist = OrderedDict({})
-    
-    config._optdatalist = config._optdatalist_default + config._optdatalist
-    config._optdata = dict(config._optdatalist)
-    config._detectAddSectionsC()
-    for opt in config._optdatalist:
-        key = opt[0]
-        config._addOptC(key)
-    return
+    @classmethod
+    def _additionalInitConfigClass(cls):
+        '''additional method called in initConfigClass
+        '''
+        return
+        
 
 #VERY IMPORTANT!!!
 #add options to class
 #initConfigClass(ConfigBase)
+ConfigBase.initConfigClass()
+
+if __name__=='__main__':
+
+    6
+    test = ConfigBase()
+    test.updateConfig()

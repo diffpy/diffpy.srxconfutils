@@ -9,6 +9,7 @@
 ##############################################################################
 
 import numpy as np
+import re
 
 def _configPropertyRad(nm):
     '''helper function of options delegation, rad 2 degree'''
@@ -35,3 +36,53 @@ def _configPropertyRW(name):
 
 def str2bool(v):
     return v.lower() in ("yes", "true", "t", "1")
+
+def opt2Str(opttype, optvalue):
+    '''trun the value of one option to string, according to the option type
+    list of values are truned into "value1, value2, value3..."
+    
+    param opttype: string, type of opitons, for example 'str' or 'intlist'
+    param optvalue: value of the option
+    
+    return: string, stored in ConfigBase.config
+    '''
+    
+    if opttype.endswith('list'):
+        rv = ', '.join(map(str, optvalue))
+    else:
+        rv = str(optvalue)
+    return rv
+
+def StrConv(opttype):
+    '''get the type (or converter function) according to the opttype
+    
+    the function don't care the list 
+    '''
+    if opttype.startswith('str'):
+        conv = str
+    elif opttype.startswith('int'):
+        conv = int
+    elif opttype.startswith('float'):
+        conv = float
+    elif opttype.startswith('bool'):
+        conv = str2bool
+    else:
+        conv = None
+    return conv
+
+def str2Opt(opttype, optvalue):
+    '''convert the string to value of one option, according to the option type
+    
+    param opttype: string, type of opitons, for example 'str' or 'intlist'
+    param optvalue: string, value of the option
+    
+    return: value of the option stored in ConfigBase.config
+    '''
+    #base converter
+    conv = StrConv(opttype)
+    if opttype.endswith('list'):
+        temp = re.split('\s*,\s*', optvalue)
+        rv = map(conv, temp) if len(temp)>0 else []
+    else:
+        rv = cov(optvalue)
+    return rv
