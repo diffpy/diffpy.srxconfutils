@@ -165,9 +165,9 @@ class ConfigBase(object):
         this method will be called after all options in self._optdata are processed, 
         i.e. all options are created and before reading config from file/args/kwargs
         '''
-        for name in ['rotation']:
-            setattr(self.__class__, name, _configPropertyRad(name+'d'))
-        self._configlist['Experiment'].extend(['rotation'])
+        #for name in ['rotation']:
+        #    setattr(self.__class__, name, _configPropertyRad(name+'d'))
+        #self._configlist['Experiment'].extend(['rotation'])
         return
     
     ###########################################################################
@@ -608,10 +608,9 @@ class ConfigBase(object):
 #VERY IMPORTANT!!!
 #add options to class
 #initConfigClass(ConfigBase)
-ConfigBase.initConfigClass()
+#ConfigBase.initConfigClass()
 
 if __name__=='__main__':
 
-    6
     test = ConfigBase()
     test.updateConfig()

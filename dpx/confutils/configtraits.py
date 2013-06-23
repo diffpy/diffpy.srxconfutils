@@ -110,11 +110,6 @@ class ConfigBaseTraits(HasTraits, ConfigBase):
             's':'c',
             'h':'name of input config file',
             'd':'',}],
-        ['liveconfigfile',{'sec':'Control', 'config':'n', 'header':'n',
-            'l':'Config File',
-            'tt':'file',
-            'h':'name of input config file',
-            'd':'',}],
         ['createconfig',{'sec':'Control', 'config':'n', 'header':'n',
             'h':'create a config file according to default or current values',
             'd':'',}],
@@ -179,6 +174,13 @@ class ConfigBaseTraits(HasTraits, ConfigBase):
     def __init__(self, filename=None, args=None, **kwargs):
         HasTraits.__init__(self)
         ConfigBase.__init__(self, filename, args, **kwargs)
+        
+        self._postInitTraits()
+        return
+    
+    def _postInitTraits(self):
+        '''additional init process called after traits init
+        '''
         return
     
     @classmethod
@@ -203,16 +205,16 @@ class ConfigBaseTraits(HasTraits, ConfigBase):
         return
     
     @classmethod
-    def _additionalInitConfigClass():
+    def _additionalInitConfigClass(cls):
         '''additional method called in initConfigClass, overload it
         '''
-        obj = Property(fget = lambda self: np.radians(self.tiltd),
-                       fset = lambda self, val: setattr(self, 'rotationd', np.degrees(val)),
-                       depends_on='rotationd')
-        PDFliveConfig.add_class_trait('rotation', obj)
+        #obj = Property(fget = lambda self: np.radians(self.tiltd),
+        #               fset = lambda self, val: setattr(self, 'rotationd', np.degrees(val)),
+        #               depends_on='rotationd')
+        #PDFliveConfig.add_class_trait('rotation', obj)
         return
 
-ConfigBaseTraits.initConfigClass()    
+#ConfigBaseTraits.initConfigClass()    
 
 if __name__=='__main__':
     test = ConfigBaseTraits(filename='temp.cfg')
