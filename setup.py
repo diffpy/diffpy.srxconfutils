@@ -19,6 +19,7 @@ dist = setup(
         dependency_links = [],
         entry_points = {
             # define console_scripts here, see setuptools docs for details.
+            
         },
 
         author = 'Simon J.L. Billinge',
