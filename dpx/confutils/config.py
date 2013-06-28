@@ -190,7 +190,7 @@ class ConfigBase(object):
                 obj = self.args.parse_args(pargs)
                 rv = obj.configfile
         if kwargs.has_key('configfile'):
-            flag = True
+            rv = kwargs['configfile']
         return rv
     
     def _findDefaultConfigFile(self, filename=None, args=None, **kwargs):
@@ -440,7 +440,9 @@ class ConfigBase(object):
         param filename: str, file name of config file
         '''
         if filename!=None:
+            filename = os.path.abspath(filename)
             if os.path.exists(filename):
+                self.configfile = filename
                 self._copySelftoConfig()
                 self.config.read(filename)
                 self._copyConfigtoSelf()
@@ -554,7 +556,7 @@ class ConfigBase(object):
         '''
         
         lines = []
-        title = '# %s #' % (self._defauldata['theaderline'] if title==None else title)
+        title = '# %s #' % (self._defaultdata['headertitle'] if title==None else title)
         lines.append(title)
         #func decide if wirte the option to header according to mode
         #options not present in self._optdata will not be written to header
@@ -576,6 +578,15 @@ class ConfigBase(object):
                 lines.append('')         
         rv = "\n".join(lines) + "\n"
         return rv
+    
+    def resetDefault(self):
+        '''reset all values to their default value
+        '''
+        for optname in self._optdata.keys():
+            setattr(self, optname, self._optdata[optname]['d'])
+        self._updateSelf()
+        return
+        
     
     ###########################################################################
     #IMPORTANT call this method if you want to add options as class attributes!!!

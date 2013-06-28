@@ -84,5 +84,5 @@ def str2Opt(opttype, optvalue):
         temp = re.split('\s*,\s*', optvalue)
         rv = map(conv, temp) if len(temp)>0 else []
     else:
-        rv = cov(optvalue)
+        rv = conv(optvalue)
     return rv
