@@ -81,7 +81,7 @@ class ConfigBase(object):
     
     #examples, overload it
     _optdatalist_default = [
-        ['configfile',{'sec':'Control', 'config':'n', 'header':'n',
+        ['configfile',{'sec':'Control', 'config':'f', 'header':'n',
             's':'c',
             'h':'name of input config file',
             'd':'',}],
@@ -509,7 +509,7 @@ class ConfigBase(object):
             self.createconfigfull = ''
         return
     
-    def writeConfig(self, filename, mode='short'):
+    def writeConfig(self, filename, mode='short', changeconfigfile = True):
         '''write config to file
         
         param filename: string, name of file
@@ -517,6 +517,8 @@ class ConfigBase(object):
             'short', options with 'config'=='f' will not be written into config file
             'full', all available options in self.config will be written to config file
         '''
+        if changeconfigfile:
+            self.configfile = os.path.abspath(filename)
         self._updateSelf()
         # func decide if wirte the option to config according to mode
         # options not present in self._optdata will not be written to config
@@ -579,11 +581,16 @@ class ConfigBase(object):
         rv = "\n".join(lines) + "\n"
         return rv
     
-    def resetDefault(self):
+    def resetDefault(self, optnames=None):
         '''reset all values to their default value
+        
+        param optnames: list of str, name of options to reset
         '''
-        for optname in self._optdata.keys():
-            setattr(self, optname, self._optdata[optname]['d'])
+        if optnames==None:
+            optnames = self._optdata.keys()
+        for optname in optnames:
+            if self._optdata.has_key(optname):
+                setattr(self, optname, self._optdata[optname]['d'])
         self._updateSelf()
         return
         

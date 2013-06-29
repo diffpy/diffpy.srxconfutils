@@ -104,7 +104,7 @@ class ConfigBaseTraits(HasTraits, ConfigBase):
     
     #examples, overload it
     _optdatalist_default = [
-        ['configfile',{'sec':'Control', 'config':'n', 'header':'n',
+        ['configfile',{'sec':'Control', 'config':'f', 'header':'n',
             'l':'Config File',
             'tt':'file',
             's':'c',
