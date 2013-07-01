@@ -563,9 +563,9 @@ class ConfigBase(object):
         #func decide if wirte the option to header according to mode
         #options not present in self._optdata will not be written to header
         if mode.startswith('s'):
-            mcond = lambda optname: self._optdata.get(optname, {'config':'n'}).get('config', 'a')=='a'
+            mcond = lambda optname: self._optdata.get(optname, {'header':'n'}).get('header', 'a')=='a'
         else:
-            mcond = lambda optname: self._optdata.get(optname, {'config':'n'}).get('config', 'a')!='n'
+            mcond = lambda optname: self._optdata.get(optname, {'header':'n'}).get('header', 'a')!='n'
     
         for secname in self._configlist.keys():
             tlines = []
