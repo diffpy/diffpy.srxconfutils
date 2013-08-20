@@ -12,12 +12,15 @@
 #
 ##############################################################################
 
-'''package for organizing program configurations. It can read/write configurations file, 
-parse arguments from command lines, and also parse arguments passed from method/function calling
-inside python.
-
-Note: for python 2.6, argparse and orderedDict is required, install them with easy_install
 '''
+package for organizing program configurations. It can read/write configurations
+file, parse arguments from command lines, and also parse arguments passed from
+method/function calling inside python.
+
+Note: for python 2.6, argparse and orderedDict is required, install them with
+easy_install
+'''
+
 
 import ConfigParser
 import re
@@ -27,28 +30,37 @@ from functools import partial
 import argparse
 from collections import OrderedDict
 
-from dpx.confutils.tools import _configPropertyRad, _configPropertyR, _configPropertyRW, \
-                                str2bool, opt2Str, str2Opt, StrConv
+from dpx.confutils.tools import _configPropertyRad, _configPropertyR, \
+    _configPropertyRW, str2bool, opt2Str, str2Opt, StrConv
 
 class ConfigBase(object):
-    '''_optdatalistdefault, _optdatalist are metadata used to initialize the options, see below for examples
+    '''
+    _optdatalist_default, _optdatalist are metadata used to
+    initialize the options, see below for examples
     
-    options presents in --help (in cmd), config file, and headers have the same order in there three list, so arrange them 
-    in right order here. 
+    options presents in --help (in cmd), config file, headers have same order as
+    in these list, so arrange them in right order here.
     
-    optional args to control if the options presents in args, config file or file header: 
-        'args': default is 'a'
-            if 'a', this option will be available in self.args
-            if 'n', this option will not be available in self.args
-        'config': default is 'a'
-            if 'f', this option will present in self.config and be written to config file only in full mode
-            if 'a', this option will present in self.config and be written to config file both in full and short mode
-            if 'n', this option will not present in self.config
-        'header', default is 'a'
-            if 'f', this option will be written to header only in full mode
-            if 'a', this option will be written to header both in full and short mode
-            if 'n', this option will not be written to header
-        so in short mode, all options with 'a' will be written, in full mode, all options with 'a' or 'f' will be written
+    optional args to control if the options presents in args, config file or
+    file header
+    
+    'args' - default is 'a'
+        if 'a', this option will be available in self.args
+        if 'n', this option will not be available in self.args
+    'config' - default is 'a'
+        if 'f', this option will present in self.config and be written to
+        config file only in full mode 
+        if 'a', this option will present in self.config and be written to
+        config file both in full and short mode
+        if 'n', this option will not present in self.config
+    'header' - default is 'a'
+        if 'f', this option will be written to header only in full mode
+        if 'a', this option will be written to header both in full and short
+        mode
+        if 'n', this option will not be written to header
+        
+    so in short mode, all options with 'a' will be written, in full mode,
+    all options with 'a' or 'f' will be written
     '''
     
     # Text to display before the argument help
@@ -60,7 +72,11 @@ class ConfigBase(object):
     '''
     '''
     
-    '''optdata contains these keys, see argparse for corresponding keys 
+    '''
+    optdata contains these keys:
+    these args will be passed to argparse, see the documents of argparse for
+    detail information
+    
     'f': full, (positional)
     's': short
     'h': help
@@ -140,7 +156,9 @@ class ConfigBase(object):
             'd':[1,1,1,1,50],}],
         ]
     
-    #default config file path and name
+    # some default data
+    # configfile: default config file name
+    # headertitle: default title of header
     _defaultdata = {'configfile': ['config.cfg'],
                     'headertitle': 'Configuration information' 
                     }
