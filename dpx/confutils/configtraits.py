@@ -12,9 +12,12 @@
 #
 ##############################################################################
 
-'''package for organizing program configurations. It can read/write configurations file, 
-parse arguments from command lines, and also parse arguments passed from method/function calling
-inside python. 
+'''
+package for organizing program configurations. It can read/write configurations
+file, parse arguments from command lines, and also parse arguments passed from
+method/function calling inside python.
+
+This one is similar to ConfigBase but use Traits, so every option (self.*option* is a trait)
 
 Note: for python 2.6, argparse and orderedDict is required, install them with easy_install
 '''
@@ -37,24 +40,33 @@ from dpx.confutils.tools import _configPropertyRad, _configPropertyR, _configPro
 from dpx.confutils.config import ConfigBase
 
 class ConfigBaseTraits(HasTraits, ConfigBase):
-    '''_optdatalistdefault, _optdatalist are metadata used to initialize the options, see below for examples
+    '''
+    _optdatalist_default, _optdatalist are metadata used to
+    initialize the options, see below for examples
     
-    options presents in --help (in cmd), config file, and headers have the same order in there three list, so arrange them 
-    in right order here. 
+    options presents in --help (in cmd), config file, headers have same order as
+    in these list, so arrange them in right order here.
     
-    optional args to control if the options presents in args, config file or file header: 
-        'args': default is 'a'
-            if 'a', this option will be available in self.args
-            if 'n', this option will not be available in self.args
-        'config': default is 'a'
-            if 'f', this option will present in self.config and be written to config file only in full mode
-            if 'a', this option will present in self.config and be written to config file both in full and short mode
-            if 'n', this option will not present in self.config
-        'header', default is 'a'
-            if 'f', this option will be written to header only in full mode
-            if 'a', this option will be written to header both in full and short mode
-            if 'n', this option will not be written to header
-        so in short mode, all options with 'a' will be written, in full mode, all options with 'a' or 'f' will be written
+    optional args to control if the options presents in args, config file or
+    file header
+    
+    'args' - default is 'a'
+        if 'a', this option will be available in self.args
+        if 'n', this option will not be available in self.args
+    'config' - default is 'a'
+        if 'f', this option will present in self.config and be written to
+        config file only in full mode 
+        if 'a', this option will present in self.config and be written to
+        config file both in full and short mode
+        if 'n', this option will not present in self.config
+    'header' - default is 'a'
+        if 'f', this option will be written to header only in full mode
+        if 'a', this option will be written to header both in full and short
+        mode
+        if 'n', this option will not be written to header
+        
+    so in short mode, all options with 'a' will be written, in full mode,
+    all options with 'a' or 'f' will be written
     '''
     
     # Text to display before the argument help
@@ -66,10 +78,14 @@ class ConfigBaseTraits(HasTraits, ConfigBase):
     '''
     '''
     
-    '''optdata contains these keys, see argparse for corresponding keys 
+    '''
+    optdata contains these keys:
+    these args will be passed to argparse, see the documents of argparse for
+    detail information
+    
     'f': full, (positional)
     's': short
-    'h': help, traits desc information
+    'h': help
     't': type
     'a': action
     'n': nargs
@@ -176,6 +192,25 @@ class ConfigBaseTraits(HasTraits, ConfigBase):
                     }
     
     def __init__(self, filename=None, args=None, **kwargs):
+        '''
+        init the class and update the values of options if specified in 
+        filename/args/kwargs
+        
+        it will:
+            1. init class using HasTraits
+            2. call self._preInit method
+            3. find the config file if specified in filename/args/kwargs
+                if failed, try to find default config file
+            4. update the options value using filename/args/kwargs
+                file > args > kwargs
+            5. call self._postInitTraits()
+        
+        :param filename: str, file name of the config file
+        :param args: list of str, args passed from cmd
+        :param kwargs: dict, optional kwargs
+        
+        :return: None
+        '''
         HasTraits.__init__(self)
         ConfigBase.__init__(self, filename, args, **kwargs)
         
@@ -183,12 +218,20 @@ class ConfigBaseTraits(HasTraits, ConfigBase):
         return
     
     def _postInitTraits(self):
-        '''additional init process called after traits init
+        '''
+        additional init process called after traits init
         '''
         return
     
     @classmethod
     def _addOptSelfC(cls, optname, optdata):
+        '''
+        class method, assign options value to *self.option*, using metadata,
+        this one will create traits objects for each option
+        
+        :param optname: string, name of the option
+        :param optdata: dict, metadata of the options, get it from self._optdatalist
+        '''
         #value type
         vtype = cls._getTypeStrC(optname)
         ttype = optdata.get('tt', vtype)
@@ -206,16 +249,6 @@ class ConfigBaseTraits(HasTraits, ConfigBase):
             kwargs['value']=optdata['d']
         obj = ttype(*args, **kwargs)
         cls.add_class_trait(optname, obj)
-        return
-    
-    @classmethod
-    def _additionalInitConfigClass(cls):
-        '''additional method called in initConfigClass, overload it
-        '''
-        #obj = Property(fget = lambda self: np.radians(self.tiltd),
-        #               fset = lambda self, val: setattr(self, 'rotationd', np.degrees(val)),
-        #               depends_on='rotationd')
-        #PDFliveConfig.add_class_trait('rotation', obj)
         return
 
 #ConfigBaseTraits.initConfigClass()    
