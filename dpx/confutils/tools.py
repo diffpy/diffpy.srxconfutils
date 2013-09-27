@@ -97,3 +97,4 @@ def str2Opt(opttype, optvalue):
     else:
         rv = conv(optvalue)
     return rv
+

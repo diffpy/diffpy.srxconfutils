@@ -393,7 +393,7 @@ class ConfigBase(object):
         secname =  optdata['sec'] if optdata.has_key('sec') else 'Others'
         cls._configlist[secname].append(optname)
         if optdata.get('config', 'a')!='n':
-            strvalue = ', '.join(map(str, optdata['d'])) if type(optdata['d'])==list else str(optdata['d'])
+            strvalue = ', '.join(map(str, optdata['d'])) if isinstance(optdata['d'], list) else str(optdata['d'])
             cls.config.set(secname, optname, strvalue)
         #add to cls.args
         if optdata.get('args', 'a')!='n':
@@ -432,7 +432,7 @@ class ConfigBase(object):
             from self.config to self.*option*'. Set None to update all
         '''
         if optnames!=None:
-            optnames = optnames if type(optnames)==list else [optnames]
+            optnames = optnames if isinstance(optnames, list) else [optnames]
         else:
             optnames = []
             for secname in self.config.sections():
@@ -454,7 +454,7 @@ class ConfigBase(object):
             from self.*option* to self.config. Set None to update all
         '''
         if optnames!=None:
-            optnames = optnames if type(optnames)==list else [optnames]
+            optnames = optnames if isinstance(optnames, list) else [optnames]
         else:
             optnames = []
             for secname in self.config.sections():
@@ -617,7 +617,7 @@ class ConfigBase(object):
         fp.close()
         return
     
-    def getHeader(self, title=None, mode='short'):
+    def getHeader(self, title=None, mode='full'):
         '''
         get a header of configurations values, 
         
@@ -644,12 +644,14 @@ class ConfigBase(object):
             for optname in self._configlist[secname]:
                 if mcond(optname):
                     value = getattr(self, optname)
-                    strvalue = ', '.join(map(str, value)) if type(value)==list else str(value)
+                    strvalue = ', '.join(map(str, value)) if isinstance(value, list) else str(value)
                     tlines.append("%s = %s" % (optname, strvalue))
             if len(tlines)>0:
                 lines.append("[%s]" % secname)
                 lines.extend(tlines)
-                lines.append('')         
+                lines.append('')  
+        lines.append('\n')
+        lines.append('###Data###\n')       
         rv = "\n".join(lines) + "\n"
         return rv
     
