@@ -188,7 +188,7 @@ class ConfigBase(object):
         #update config, first detect if a default config should be load
         filename = self._findDefaultConfigFile(filename, args, **kwargs)
         rv = self.updateConfig(filename, args, **kwargs)
-        return rv
+        return
     
     #example, overload it
     def _preInit(self, **kwargs):
@@ -546,7 +546,7 @@ class ConfigBase(object):
         if kwargs!={}:
             rv = self.parseKwargs(**kwargs)
             
-        if (filename==None)and(args==None)and(kwargs=={}):
+        if (filename==None)and((args==None)or(args==[]))and(kwargs=={}):
             rv = self._updateSelf()
         
         # call self._callbackUpdateConfig
@@ -680,6 +680,8 @@ class ConfigBase(object):
         IMPORTANT call this method after you define the metadata of your config
         class to add options as class attributes!!!
         '''
+        cls._preInitConfigClass()
+        
         cls.config = ConfigParser.ConfigParser(dict_type = OrderedDict)
         cls.args = argparse.ArgumentParser(description=cls._description, 
                                               epilog=cls._epilog,
@@ -692,7 +694,27 @@ class ConfigBase(object):
         for opt in cls._optdatalist:
             key = opt[0]
             cls._addOptC(key)
+            
+        cls._postInitConfigClass()
         return
+    
+    @classmethod
+    def _postInitConfigClass(cls):
+        '''
+        additional processes called after initConfigClass
+        
+        overload it
+        '''
+        pass
+    
+    @classmethod
+    def _preInitConfigClass(cls):
+        '''
+        additional processes called before initConfigClass
+        
+        overload it
+        '''
+        pass
 
 #VERY IMPORTANT!!!
 #add options to class
