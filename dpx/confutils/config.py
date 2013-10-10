@@ -317,23 +317,24 @@ class ConfigBase(object):
             value = optdata['d']
             if isinstance(value, str):
                 opttype = 'str'
+            elif isinstance(value, bool):
+                opttype = 'bool'
             elif isinstance(value, float):
                 opttype = 'float'
             elif isinstance(value, int):
                 opttype = 'int'
-            elif isinstance(value, bool):
-                opttype = 'bool'
             elif isinstance(value, list):
                 if len(value)==0:
                     opttype = 'strlist'
                 elif isinstance(value[0], str):
                     opttype = 'strlist'
+                elif isinstance(value[0], bool):
+                    opttype = 'boollist'
                 elif isinstance(value[0], float):
                     opttype = 'floatlist'
                 elif isinstance(value[0], int):
                     opttype = 'intlist'
-                elif isinstance(value[0], bool):
-                    opttype = 'boollist'
+                
         return opttype
     
     ###########################################################################
