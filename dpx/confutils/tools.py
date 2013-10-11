@@ -98,3 +98,26 @@ def str2Opt(opttype, optvalue):
         rv = conv(optvalue)
     return rv
 
+class FackConfigFile(object):
+    
+    def __init__(self, configfile, endline='###Data###'):
+        self.configfile = configfile
+        self.fp = open(configfile)
+        self.endline = '###Data###'
+        self.ended = False
+        self.name = configfile
+        return
+    
+    def readline(self):
+        line = self.fp.readline()
+        if line.startswith(self.endline) or self.ended:
+            rv = ''
+            self.ended = True
+        else:
+            rv = line
+        return rv
+    
+    def close(self):
+        self.fp.close()
+        return    
+        

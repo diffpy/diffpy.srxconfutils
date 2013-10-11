@@ -31,7 +31,7 @@ import argparse
 from collections import OrderedDict
 
 from dpx.confutils.tools import _configPropertyRad, _configPropertyR, \
-    _configPropertyRW, str2bool, opt2Str, str2Opt, StrConv
+    _configPropertyRW, str2bool, opt2Str, str2Opt, StrConv, FackConfigFile
 
 class ConfigBase(object):
     '''
@@ -512,10 +512,12 @@ class ConfigBase(object):
         '''
         if filename!=None:
             filename = os.path.abspath(filename)
-            if os.path.exists(filename):
+            if os.path.exists(filename): 
                 self.configfile = filename
                 self._copySelftoConfig()
-                self.config.read(filename)
+                fileobj = FackConfigFile(filename)
+                #self.config.read(filename)
+                self.config.readfp(fileobj)
                 self._copyConfigtoSelf()
                 self._updateSelf()
         return
