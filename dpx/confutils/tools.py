@@ -120,4 +120,31 @@ class FackConfigFile(object):
     def close(self):
         self.fp.close()
         return    
-        
+
+def checkCRC32(filename):
+    '''calculate the crc32 value of file'''
+    try:
+        fd = open(filename, 'rb')
+    except:
+        return 'Read error'
+    eachLine = fd.readline()
+    prev = 0
+    while eachLine:
+        prev = zlib.crc32(eachLine, prev)
+        eachLine = fd.readline()
+    fd.close()
+    return prev
+
+def checkMD5(filename, blocksize=65536):
+    '''calculate the MD5 value of file'''
+    try:
+        fd = open(filename, 'rb')
+    except:
+        return 'Read error'
+    buf = fd.read(blocksize)
+    md5 = hashlib.md5()
+    while len(buf) > 0:
+        md5.update(buf)
+        buf = fd.read(blocksize)
+    fd.close()
+    return md5.hexdigest()
