@@ -169,4 +169,5 @@ def checkFileVal(filename):
                 valflag = True
         else:
             time.sleep(0.5)
+            lastcrc = checkCRC32(filename)
     return
