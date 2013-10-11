@@ -148,3 +148,22 @@ def checkMD5(filename, blocksize=65536):
         buf = fd.read(blocksize)
     fd.close()
     return md5.hexdigest()
+
+def checkFileVal(filename):
+    '''check file integrity using crc32 and md5. It will read file twice then
+    compare the crc32 and md5. If two results doesn't match, it will wait until 
+    the file is completed written to disk.
+    '''
+    valflag = False
+    lastcrc = self.checkCRC32(filename)
+    while not valflag:
+        currcrc = self.checkCRC32(filename)
+        if currcrc == lastcrc:
+            lastmd5 = self.checkMD5(filename)
+            time.sleep(0.01)
+            currmd5 = self.checkMD5(filename)
+            if lastmd5 == currmd5:
+                valflag = True
+        else:
+            time.sleep(0.5)
+    return
