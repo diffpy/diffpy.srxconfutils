@@ -14,6 +14,9 @@
 
 import numpy as np
 import re
+import time
+import zlib
+import hashlib
 
 def _configPropertyRad(nm):
     '''
@@ -155,13 +158,13 @@ def checkFileVal(filename):
     the file is completed written to disk.
     '''
     valflag = False
-    lastcrc = self.checkCRC32(filename)
+    lastcrc = checkCRC32(filename)
     while not valflag:
-        currcrc = self.checkCRC32(filename)
+        currcrc = checkCRC32(filename)
         if currcrc == lastcrc:
-            lastmd5 = self.checkMD5(filename)
+            lastmd5 = checkMD5(filename)
             time.sleep(0.01)
-            currmd5 = self.checkMD5(filename)
+            currmd5 = checkMD5(filename)
             if lastmd5 == currmd5:
                 valflag = True
         else:
