@@ -31,7 +31,7 @@ import argparse
 try:
     from collections import OrderedDict
 except:
-    import ordereddict as OrderedDict
+    from ordereddict import OrderedDict
 
 from dpx.confutils.tools import _configPropertyRad, _configPropertyR, \
     _configPropertyRW, str2bool, opt2Str, str2Opt, StrConv, FackConfigFile
