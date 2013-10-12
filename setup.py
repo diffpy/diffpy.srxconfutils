@@ -13,6 +13,7 @@ dist = setup(
         version = '0.1',
         namespace_packages = ['dpx'],
         packages = find_packages(),
+        zip_safe = False,
         scripts = [],
         data_files = [],
         install_requires = [],
