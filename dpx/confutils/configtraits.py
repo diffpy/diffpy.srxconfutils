@@ -28,10 +28,6 @@ import os
 import sys
 from functools import partial
 import argparse
-try:
-    from collections import OrderedDict
-except:
-    import ordereddict as OrderedDict
 
 from traits.api import Directory, String, List, Enum, Bool, File, Float, Int, \
                         HasTraits, Property, Range, cached_property, Str, Instance, Array,\
