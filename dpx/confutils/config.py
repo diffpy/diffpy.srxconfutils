@@ -28,7 +28,10 @@ import os
 import sys
 from functools import partial
 import argparse
-from collections import OrderedDict
+try:
+    from collections import OrderedDict
+except:
+    import ordereddict as OrderedDict
 
 from dpx.confutils.tools import _configPropertyRad, _configPropertyR, \
     _configPropertyRW, str2bool, opt2Str, str2Opt, StrConv, FackConfigFile
