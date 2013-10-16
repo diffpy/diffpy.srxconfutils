@@ -10,7 +10,7 @@ from setuptools import setup, find_packages
 # define distribution
 dist = setup(
         name = 'dpx.confutils',
-        version = '0.1',
+        version = '1.0',
         namespace_packages = ['dpx'],
         packages = find_packages(),
         zip_safe = False,
