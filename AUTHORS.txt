@@ -1,20 +1,29 @@
-The main contributors to this package were:
+The main contributors to the GetXgui software was 
 
     Xiaohao Yang
+	
+The main contributors to the PDFGetX3, background engine of GetXgui
+were:
 
-The DPX team is located in the Billinge-group at the Applied Physics
-and Applied Mathematics Department of the Columbia University in New York. 
+    Pavol Juhas
+    Timur Davis
+    Christopher Farrow
+
+This project was much improved by testing, feedback and suggestions
+from the Billinge-group members at the Applied Physics and Applied
+Mathematics Department of the Columbia University in New York and
+at the Condensed Matter Physics and Materials Science Department
+at the Brookhaven National Laboratory.
+
 Currently the team consists of
 
     Simon Billinge
-    Pavol Juhas
+    Milinda Abeykoon
     Emil Bozin
+    Pavol Juhas
+    Kevin Knox
+    Chenyang Shi
     Xiaohao Yang
 
 
-For more information on the DPX project email sb2896@columbia.edu
-
-
-Acknowledgments:
-
-I am greateful to all members of the Billinge Group for their support, assistance, and answers to my inane questions. 
+For more information about the GetXgui project email sb2896@columbia.edu
