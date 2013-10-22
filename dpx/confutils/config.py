@@ -650,7 +650,8 @@ class ConfigBase(object):
             for optname in self._configlist[secname]:
                 if mcond(optname):
                     value = getattr(self, optname)
-                    strvalue = ', '.join(map(str, value)) if isinstance(value, list) else str(value)
+                    ttype = self._getTypeStr(optname)
+                    strvalue = ', '.join(map(str, value)) if ttype.endswith('list') else str(value)
                     tlines.append("%s = %s" % (optname, strvalue))
             if len(tlines)>0:
                 lines.append("[%s]" % secname)
