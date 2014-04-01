@@ -103,10 +103,10 @@ def str2Opt(opttype, optvalue):
 
 class FackConfigFile(object):
 
-    def __init__(self, configfile, endline='### Data ###'):
+    def __init__(self, configfile, endline='###'):
         self.configfile = configfile
         self.fp = open(configfile)
-        self.endline = '### Data ###'
+        self.endline = endline
         self.ended = False
         self.name = configfile
         return
