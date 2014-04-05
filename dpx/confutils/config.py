@@ -16,7 +16,7 @@
 package for organizing program configurations. It can read/write configurations
 file, parse arguments from command lines, and also parse arguments passed from
 method/function calling inside python.
-
+  
 Note: for python 2.6, argparse and orderedDict is required, install them with
 easy_install
 '''
@@ -33,8 +33,8 @@ try:
 except:
     from ordereddict import OrderedDict
 
-from dpx.confutils.tools import _configPropertyRad, _configPropertyR, \
-    _configPropertyRW, str2bool, opt2Str, str2Opt, StrConv, FackConfigFile
+from diffpy.confutils.tools import _configPropertyRad, _configPropertyR, \
+    _configPropertyRW, str2bool, opt2Str, str2Opt, StrConv, FakeConfigFile
 
 class ConfigBase(object):
     '''
@@ -223,7 +223,7 @@ class ConfigBase(object):
             rv = filename
         if (args != None):
             if ('--configfile' in args) or ('-c' in args):
-                obj = self.args.parse_args(pargs)
+                obj = self.args.parse_args(args)
                 rv = obj.configfile
         if kwargs.has_key('configfile'):
             rv = kwargs['configfile']
@@ -518,7 +518,7 @@ class ConfigBase(object):
             if os.path.exists(filename):
                 self.configfile = filename
                 self._copySelftoConfig()
-                fileobj = FackConfigFile(filename)
+                fileobj = FakeConfigFile(filename)
                 # self.config.read(filename)
                 self.config.readfp(fileobj)
                 self._copyConfigtoSelf()
@@ -636,7 +636,7 @@ class ConfigBase(object):
         '''
 
         lines = []
-        title = '# %s #\n' % (self._defaultdata['headertitle'] if title == None else title)
+        title = '# %s #' % (self._defaultdata['headertitle'] if title == None else title)
         lines.append(title)
         # func decide if wirte the option to header according to mode
         # options not present in self._optdata will not be written to header
