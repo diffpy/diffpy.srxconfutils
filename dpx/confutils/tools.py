@@ -17,6 +17,13 @@ import re
 import time
 import zlib
 import hashlib
+from pkgutil import iter_modules
+
+def module_exists(module_name):
+    return module_name in [tuple_[1] for tuple_ in iter_modules()]
+
+def module_exists_lower(module_name):
+    return module_name.lower() in [tuple_[1].lower() for tuple_ in iter_modules()]
 
 def _configPropertyRad(nm):
     '''
