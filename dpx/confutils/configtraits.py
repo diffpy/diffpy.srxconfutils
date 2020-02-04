@@ -22,7 +22,7 @@ This one is similar to ConfigBase but use Traits, so every option (self.*option*
 Note: for python 2.6, argparse and orderedDict is required, install them with easy_install
 '''
 
-import ConfigParser
+import configparser
 import re
 import os
 import sys
@@ -235,11 +235,11 @@ class ConfigBaseTraits(HasTraits, ConfigBase):
         vtype = cls._getTypeStrC(optname)
         ttype = optdata.get('tt', vtype)
         ttype = cls._traitstypedict[ttype]
-        kwargs = {'label':optdata['l'] if optdata.has_key('l') else optname, 
+        kwargs = {'label':optdata['l'] if 'l' in optdata else optname, 
                   'desc':optdata['h'],
                   }
         args = [optdata['d']]
-        if optdata.has_key('c'):
+        if 'c' in optdata:
             ttype = Enum
             args = [optdata['c']]
             kwargs['value']=optdata['d']
