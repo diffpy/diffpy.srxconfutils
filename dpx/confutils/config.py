@@ -520,7 +520,7 @@ class ConfigBase(object):
                 self._copySelftoConfig()
                 fileobj = FakeConfigFile(filename)
                 # self.config.read(filename)
-                self.config.readfp(fileobj)
+                self.config.readfp(fileobj.fp)
                 self._copyConfigtoSelf()
                 self._updateSelf()
         return
