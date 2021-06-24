@@ -11,6 +11,9 @@ The dpx.confutils requires Python 2.7 and the following software:
 
 * ``numpy``
 * ``traits``
+* ``traitsui``
+* ``six``
+* ``importlib_metadata``
 
 
 INSTALLATION
