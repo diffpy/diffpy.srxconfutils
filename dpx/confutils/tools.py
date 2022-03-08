@@ -12,6 +12,9 @@
 #
 ##############################################################################
 
+from builtins import str
+from builtins import map
+from builtins import object
 import numpy as np
 import re
 import time
@@ -110,10 +113,16 @@ def str2Opt(opttype, optvalue):
     conv = StrConv(opttype)
     if opttype.endswith('list'):
         temp = re.split('\s*,\s*', optvalue)
-        rv = map(conv, temp) if len(temp) > 0 else []
+        rv = list(map(conv, temp)) if len(temp) > 0 else []
     else:
         rv = conv(optvalue)
     return rv
+
+def readline_generator(fp):
+    line = fp.readline()
+    while line:
+        yield line
+        line = fp.readline()
 
 class FakeConfigFile(object):
     '''

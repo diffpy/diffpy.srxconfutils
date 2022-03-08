@@ -8,6 +8,8 @@ Packages:   dpx.confutils
 Scripts:    None
 """
 
+from future import standard_library
+standard_library.install_aliases()
 import os
 from setuptools import setup, find_packages
 from setuptools.command.build_py import build_py
@@ -35,10 +37,10 @@ gitarchivecfgfile = versioncfgfile.replace('version.cfg', 'gitarchive.cfg')
 
 def gitinfo():
     from subprocess import Popen, PIPE
-    kw = dict(stdout=PIPE, cwd=MYDIR)
+    kw = dict(stdout=PIPE, cwd=MYDIR, universal_newlines=True)
     proc = Popen(['git', 'describe', '--match=v[[:digit:]]*'], **kw)
     desc = proc.stdout.read()
-    proc = Popen(['git', 'log', '-1', '--format=%H %at %ai'], **kw)
+    proc = Popen(['git', 'log', '-1', '--format=%H %ct %ci'], **kw)
     glog = proc.stdout.read()
     rv = {}
     rv['version'] = '.post'.join(desc.strip().split('-')[:2]).lstrip('v')
@@ -48,7 +50,7 @@ def gitinfo():
 
 def getversioncfg():
     import re
-    from ConfigParser import RawConfigParser
+    from configparser import RawConfigParser
     vd0 = dict(version=FALLBACK_VERSION, commit='', date='', timestamp=0)
     # first fetch data from gitarchivecfgfile, ignore if it is unexpanded
     g = vd0.copy()
