@@ -22,7 +22,7 @@ This one is similar to ConfigBase but use Traits, so every option (self.*option*
 Note: for python 2.6, argparse and orderedDict is required, install them with easy_install
 '''
 
-import ConfigParser
+from configparser import ConfigParser
 import re
 import os
 import sys
