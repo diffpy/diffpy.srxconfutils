@@ -20,7 +20,7 @@ classifiers = [
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: BSD License',
+        'License :: Free To Use But Restricted',
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX',
@@ -33,8 +33,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/diffpy/diffpy.distanceprinter/"
-Issues = "https://github.com/diffpy/diffpy.distanceprinter/issues/"
+Homepage = "https://github.com/diffpy/diffpy.srxconfutils/"
+Issues = "https://github.com/diffpy/diffpy.srxconfutils/issues/"
 
 [tool.setuptools-git-versioning]
 enabled = true
@@ -43,7 +43,7 @@ dev_template = "{tag}"
 dirty_template = "{tag}"
 
 [tool.setuptools.packages.find]
-where = ["diffpy"]  # list of folders that contain the packages (["."] by default)
+where = ["dpx"]  # list of folders that contain the packages (["."] by default)
 include = ["*"]  # package names should match these glob patterns (["*"] by default)
 exclude = []  # exclude packages matching these glob patterns (empty by default)
 namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
