@@ -34,9 +34,9 @@ from traits.api import Directory, String, List, Enum, Bool, File, Float, Int, \
                         Event, CFloat, CInt, on_trait_change
 from traitsui.api import Item, Group, View
 
-from dpx.confutils.tools import _configPropertyRad, _configPropertyR, _configPropertyRW, \
+from diffpy.confutils.tools import _configPropertyRad, _configPropertyR, _configPropertyRW, \
                                 str2bool, opt2Str, str2Opt, StrConv
-from dpx.confutils.config import ConfigBase
+from diffpy.confutils.config import ConfigBase
 
 class ConfigBaseTraits(HasTraits, ConfigBase):
     '''

@@ -13,10 +13,10 @@
 ##############################################################################
 
 # package version
-from dpx.confutils.version import __version__
+from diffpy.confutils.version import __version__
 
 # some convenience imports
-from dpx.confutils.config import ConfigBase, ConfigBase
+from diffpy.confutils.config import ConfigBase, ConfigBase
 
 # unit tests
 def test():

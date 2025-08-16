@@ -33,7 +33,7 @@ try:
 except:
     from ordereddict import OrderedDict
 
-from dpx.confutils.tools import _configPropertyRad, _configPropertyR, \
+from diffpy.confutils.tools import _configPropertyRad, _configPropertyR, \
     _configPropertyRW, str2bool, opt2Str, str2Opt, StrConv, FakeConfigFile
 
 class ConfigBase(object):
