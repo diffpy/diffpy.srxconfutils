@@ -13,10 +13,10 @@
 ##############################################################################
 
 # package version
-from diffpy.confutils.version import __version__
+from diffpy.srxconfutils.version import __version__
 
 # some convenience imports
-from diffpy.confutils.config import ConfigBase, ConfigBase
+from diffpy.srxconfutils.config import ConfigBase, ConfigBase
 
 # unit tests
 def test():
