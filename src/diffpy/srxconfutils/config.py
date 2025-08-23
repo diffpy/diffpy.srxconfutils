@@ -499,7 +499,7 @@ class ConfigBase(object):
         '''
         if kwargs != {}:
             changedargs = []
-            for optname, optvalue in kwargs.iteritems():
+            for optname, optvalue in kwargs.items():
                 if optname in self._optdata:
                     setattr(self, optname, optvalue)
                     changedargs.append(optname)
