@@ -110,7 +110,7 @@ def str2Opt(opttype, optvalue):
     conv = StrConv(opttype)
     if opttype.endswith('list'):
         temp = re.split('\s*,\s*', optvalue)
-        rv = map(conv, temp) if len(temp) > 0 else []
+        rv = list(map(conv, temp)) if len(temp) > 0 else []
     else:
         rv = conv(optvalue)
     return rv
@@ -146,6 +146,15 @@ class FakeConfigFile(object):
         '''
         self.fp.close()
         return
+    
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        line = self.readline()
+        if line == '':
+            raise StopIteration
+        return line
 
 def checkCRC32(filename):
     '''
