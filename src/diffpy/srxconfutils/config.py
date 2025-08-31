@@ -205,7 +205,7 @@ class ConfigBase(object):
             "fliphorizontal",
             {
                 "sec": "Beamline",
-                "h": "filp the image horizontally",
+                "h": "flip the image horizontally",
                 "n": "?",
                 "co": True,
                 "d": False,
@@ -542,8 +542,8 @@ class ConfigBase(object):
         """Parse args and update the value in self.*option*, this will
         call the self.args() to parse args,
 
-        :param pargs: list of string, arguments to parse, usually
-            comming from sys.argv
+        :param pargs: list of string, arguments to parse, usually coming
+            from sys.argv
         """
         obj = self.args.parse_args(pargs)
         changedargs = obj.__dict__.keys()
@@ -640,7 +640,7 @@ class ConfigBase(object):
 
     ###########################################################################
     def _createConfigFile(self):
-        """Write output config file if specfied in configuration the
+        """Write output config file if specified in configuration the
         filename is specified by self.createconfig."""
         if (self.createconfig != "") and (self.createconfig != None):
             self.writeConfig(self.createconfig, "short")
@@ -651,7 +651,7 @@ class ConfigBase(object):
         return
 
     def writeConfig(self, filename, mode="short", changeconfigfile=True):
-        """Write config to file. the file is compatiable with python
+        """Write config to file. the file is compatible with python
         package ConfigParser.
 
         :param filename: string, name of file
@@ -662,7 +662,7 @@ class ConfigBase(object):
         if changeconfigfile:
             self.configfile = os.path.abspath(filename)
         self._updateSelf()
-        # func decide if wirte the option to config according to mode
+        # func decide if write the option to config according to mode
         # options not present in self._optdata will not be written to config
         if mode.startswith("s"):
             mcond = (
@@ -706,7 +706,7 @@ class ConfigBase(object):
             mode, all options with 'a' will be written, in full mode,
             all options with 'a' or 'f' will be written
         :return: string, lines with line break that can be directly
-            writen to a text file
+            written to a text file
         """
 
         lines = []
@@ -714,7 +714,7 @@ class ConfigBase(object):
             self._defaultdata["headertitle"] if title == None else title
         )
         lines.append(title)
-        # func decide if wirte the option to header according to mode
+        # func decide if write the option to header according to mode
         # options not present in self._optdata will not be written to header
         if mode.startswith("s"):
             mcond = (

@@ -23,7 +23,7 @@ you can install dpx.confutils using
     python setup.py install
 
 Note: the dependency is not specified in the setup.py. You need to install
-them yourself. You can use Anaconda or other python enviroment.
+them yourself. You can use Anaconda or other python environment.
 
 
 CONTACTS
