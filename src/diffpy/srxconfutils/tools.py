@@ -74,9 +74,9 @@ def str2bool(v):
 
 def opt2Str(opttype, optvalue):
     """Turn the value of one option to string, according to the option
-    type list of values are truned into "value1, value2, value3...".
+    type list of values are turned into "value1, value2, value3...".
 
-    :param opttype: string, type of opitons, for example 'str' or
+    :param opttype: string, type of options, for example 'str' or
         'intlist'
     :param optvalue: value of the option
     :return: string, usually stored in ConfigBase.config
@@ -111,7 +111,7 @@ def str2Opt(opttype, optvalue):
     """Convert the string to value of one option, according to the
     option type.
 
-    :param opttype: string, type of opitons, for example 'str' or
+    :param opttype: string, type of options, for example 'str' or
         'intlist'
     :param optvalue: string, value of the option
     :return: value of the option, usually stored in ConfigBase.config
