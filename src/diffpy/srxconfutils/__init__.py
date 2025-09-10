@@ -12,9 +12,6 @@
 #
 ##############################################################################
 
-# some convenience imports
-from diffpy.srxconfutils.config import ConfigBase
-
 # package version
 from diffpy.srxconfutils.version import __version__
 
@@ -29,5 +26,8 @@ def test():
 
     return test()
 
+
+# silence the pyflakes syntax checker
+assert __version__ or True
 
 # End of file
