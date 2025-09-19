@@ -15,17 +15,9 @@
 configurations file, parse arguments from command lines, and also parse
 arguments passed from method/function calling inside python.
 
-This one is similar to ConfigBase but use Traits, so every option (self.*option* is a trait)
-
-Note: for python 2.6, argparse and orderedDict is required, install them with easy_install
+This one is similar to ConfigBase but use Traits, so every option
+(self.*option* is a trait) can be observed and have a GUI interface.
 """
-
-import argparse
-import os
-import re
-import sys
-from configparser import ConfigParser
-from functools import partial
 
 from traits.api import (
     Array,
@@ -34,40 +26,21 @@ from traits.api import (
     CInt,
     Directory,
     Enum,
-    Event,
     File,
-    Float,
     HasTraits,
-    Instance,
-    Int,
     List,
-    Property,
-    Range,
-    Str,
     String,
-    cached_property,
-    on_trait_change,
 )
-from traitsui.api import Group, Item, View
 
 from diffpy.srxconfutils.config import ConfigBase
-from diffpy.srxconfutils.tools import (
-    StrConv,
-    _configPropertyR,
-    _configPropertyRad,
-    _configPropertyRW,
-    opt2Str,
-    str2bool,
-    str2Opt,
-)
 
 
 class ConfigBaseTraits(HasTraits, ConfigBase):
     """_optdatalist_default, _optdatalist are metadata used to
     initialize the options, see below for examples.
 
-    options presents in --help (in cmd), config file, headers have same order as
-    in these list, so arrange them in right order here.
+    options presents in --help (in cmd), config file, headers have
+    same order as in these list, so arrange them in right order here.
 
     optional args to control if the options presents in args, config file or
     file header
@@ -165,7 +138,10 @@ class ConfigBaseTraits(HasTraits, ConfigBase):
                 "sec": "Control",
                 "config": "n",
                 "header": "n",
-                "h": "create a config file according to default or current values",
+                "h": (
+                    "create a config file according to "
+                    "default or current values"
+                ),
                 "d": "",
             },
         ],
@@ -269,8 +245,12 @@ class ConfigBaseTraits(HasTraits, ConfigBase):
                 "config": "f",
                 "tt": "array",
                 "l": "Mask edges",
-                "h": "mask the edge pixels, first four means the number of pixels masked in each edge \
-                (left, right, top, bottom), the last one is the radius of a region masked around the corner",
+                "h": (
+                    "mask the edge pixels, first four means "
+                    "the number of pixels masked in each edge "
+                    "(left, right, top, bottom), the last one is the "
+                    "radius of a region masked around the corner"
+                ),
                 "n": 5,
                 "d": [10, 10, 10, 10, 100],
             },
