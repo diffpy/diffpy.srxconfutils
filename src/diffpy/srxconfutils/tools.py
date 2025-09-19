@@ -163,7 +163,7 @@ class FakeConfigFile(object):
         return line
 
 
-def check_crc32(filename):
+def get_crc32(filename):
     """Calculate the crc32 value of file.
 
     :param filename: path to the file
@@ -181,7 +181,7 @@ def check_crc32(filename):
     return prev
 
 
-def check_md5(filename, blocksize=65536):
+def get_md5(filename, blocksize=65536):
     """Calculate the MD5 value of file.
 
     :param filename: path to the file
@@ -207,16 +207,16 @@ def checkFileVal(filename):
     :param filename: path to the file
     """
     valflag = False
-    lastcrc = check_crc32(filename)
+    lastcrc = get_crc32(filename)
     while not valflag:
-        currcrc = check_crc32(filename)
+        currcrc = get_crc32(filename)
         if currcrc == lastcrc:
-            lastmd5 = check_md5(filename)
+            lastmd5 = get_md5(filename)
             time.sleep(0.01)
-            currmd5 = check_md5(filename)
+            currmd5 = get_md5(filename)
             if lastmd5 == currmd5:
                 valflag = True
         else:
             time.sleep(0.5)
-            lastcrc = check_crc32(filename)
+            lastcrc = get_crc32(filename)
     return
