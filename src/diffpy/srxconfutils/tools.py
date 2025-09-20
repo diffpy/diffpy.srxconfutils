@@ -59,9 +59,9 @@ def _configPropertyRW(name):
     read and write
     """
     rv = property(
-        fget=lambda self: getattr(self.config, nm),
-        fset=lambda self, value: setattr(self.config, nm, value),
-        fdel=lambda self: delattr(self, nm),
+        fget=lambda self: getattr(self.config, name),
+        fset=lambda self, value: setattr(self.config, name, value),
+        fdel=lambda self: delattr(self, name),
         doc="attribute forwarded to self.config, read/write",
     )
     return rv
@@ -119,7 +119,7 @@ def str2Opt(opttype, optvalue):
     # base converter
     conv = StrConv(opttype)
     if opttype.endswith("list"):
-        temp = re.split("\s*,\s*", optvalue)
+        temp = re.split(r"\s*,\s*", optvalue)
         rv = list(map(conv, temp)) if len(temp) > 0 else []
     else:
         rv = conv(optvalue)
@@ -163,41 +163,39 @@ class FakeConfigFile(object):
         return line
 
 
-def checkCRC32(filename):
+def get_crc32(filename):
     """Calculate the crc32 value of file.
 
     :param filename: path to the file
     :return: crc32 value of file
     """
     try:
-        fd = open(filename, "rb")
-    except:
-        return "Read error"
-    eachLine = fd.readline()
-    prev = 0
-    while eachLine:
-        prev = zlib.crc32(eachLine, prev)
-        eachLine = fd.readline()
-    fd.close()
+        with open(filename, "rb") as fd:
+            eachLine = fd.readline()
+            prev = 0
+            while eachLine:
+                prev = zlib.crc32(eachLine, prev)
+                eachLine = fd.readline()
+    except OSError as e:
+        raise RuntimeError(f"Failed to read file {filename}") from e
     return prev
 
 
-def checkMD5(filename, blocksize=65536):
+def get_md5(filename, blocksize=65536):
     """Calculate the MD5 value of file.
 
     :param filename: path to the file
     :return: md5 value of file
     """
     try:
-        fd = open(filename, "rb")
-    except:
-        return "Read error"
-    buf = fd.read(blocksize)
-    md5 = hashlib.md5()
-    while len(buf) > 0:
-        md5.update(buf)
-        buf = fd.read(blocksize)
-    fd.close()
+        with open(filename, "rb") as fd:
+            buf = fd.read(blocksize)
+            md5 = hashlib.md5()
+            while len(buf) > 0:
+                md5.update(buf)
+                buf = fd.read(blocksize)
+    except OSError as e:
+        raise RuntimeError(f"Failed to read file {filename}") from e
     return md5.hexdigest()
 
 
@@ -209,16 +207,16 @@ def checkFileVal(filename):
     :param filename: path to the file
     """
     valflag = False
-    lastcrc = checkCRC32(filename)
+    lastcrc = get_crc32(filename)
     while not valflag:
-        currcrc = checkCRC32(filename)
+        currcrc = get_crc32(filename)
         if currcrc == lastcrc:
-            lastmd5 = checkMD5(filename)
+            lastmd5 = get_md5(filename)
             time.sleep(0.01)
-            currmd5 = checkMD5(filename)
+            currmd5 = get_md5(filename)
             if lastmd5 == currmd5:
                 valflag = True
         else:
             time.sleep(0.5)
-            lastcrc = checkCRC32(filename)
+            lastcrc = get_crc32(filename)
     return
