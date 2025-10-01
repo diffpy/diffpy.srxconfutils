@@ -1,8 +1,8 @@
 Authors
 =======
 
-Xiaohao Yang
-Billinge Group members
+    Xiaohao Yang
+    Billinge Group members
 
 Contributors
 ------------
