@@ -57,8 +57,17 @@ To install this software from a Python wheel distribution format execute
 
     pip install ./diffpy.srxconfutils-VERSION.whl
 
-If you prefer to install from sources, after installing the dependencies, obtain the source archive from
-`GitHub <https://github.com/diffpy/diffpy.srxconfutils/>`_. Once installed, ``cd`` into your ``diffpy.srxconfutils`` directory
+If you are a developer, you can also install this package from sources. First, obtain the source archive
+from `GitHub <https://github.com/diffpy/diffpy.srxconfutils/>`_.
+Install the packages in ``./requirements/conda.txt`` and ``./requirements/tests.txt``
+using the `--file`` command:
+
+    conda activate conf-env
+    conda install --file ./requirements/conda.txt
+    conda install --file ./requirements/tests.txt
+    pip install -e .    # assuming you are in the top level directory of the package
+
+After installing the dependencies, ``cd`` into your ``diffpy.srxconfutils`` directory
 and run the following ::
 
         pip install .
