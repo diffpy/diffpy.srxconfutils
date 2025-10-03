@@ -25,8 +25,6 @@
 
 Configuration utilities for diffpy project. Part of xPDFsuite.
 
-* LONGER DESCRIPTION HERE
-
 For more information about the diffpy.srxconfutils library, please consult our `online documentation <https://diffpy.github.io/diffpy.srxconfutils>`_.
 
 Citation
