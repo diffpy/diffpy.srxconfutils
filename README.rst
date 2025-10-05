@@ -32,10 +32,18 @@ Citation
 
 If you use diffpy.srxconfutils in a scientific publication, we would like you to cite this package as
 
-        diffpy.srxconfutils Package, https://github.com/diffpy/diffpy.srxconfutils
+        Xiaohao Yang, Pavol Juhas, Christopher L. Farrow and Simon J. L. Billinge, xPDFsuite: an end-to-end
+        software solution for high throughput pair distribution function transformation, visualization and
+        analysis, arXiv 1402.3163 (2014)
 
 Installation
 ------------
+``diffpy.srxconfutils`` is normally installed as part of the ``xpdfsuite`` software, so please refer to the
+installation instructions detailed in the ``README.rst`` file of ``xpdfsuite`` `here <https://github.com/diffpy/diffpy.xpdfsuite/blob/main/README.rst>`_.
+
+Independent Installation
+------------------------
+You can also install ``diffpy.srxconfutils`` independently for yourself.
 
 Assuming you have a wheel file in the current working directory, in an active conda environment please type
 
