@@ -25,8 +25,6 @@
 
 Configuration utilities for diffpy project. Part of xPDFsuite.
 
-For more information about the diffpy.srxconfutils library, please consult our `online documentation <https://diffpy.github.io/diffpy.srxconfutils>`_.
-
 Citation
 --------
 
@@ -45,28 +43,28 @@ Independent Installation
 ------------------------
 You can also install ``diffpy.srxconfutils`` independently for yourself.
 
-Assuming you have a wheel file in the current working directory, in an active conda environment please type
+Assuming you have a wheel file in the current working directory, in an active conda environment please type ::
 
     pip install ./diffpy.srxconfutils-VERSION.whl
 
 where you replace VERSION with the actual version you have so the command matches the filename of the
 wheel file you have.
 
-The commands to create and activate the conda environment with name "conf-env" is
+The commands to create and activate the conda environment with name "conf-env" is ::
 
     conda create -n conf-env python=3.13
     conda activate conf-env
 
 If you don't have conda installed, we recomment you install `miniconda
 <https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html>`_
-To install this software from a Python wheel distribution format execute
+To install this software from a Python wheel distribution format execute ::
 
     pip install ./diffpy.srxconfutils-VERSION.whl
 
 If you are a developer, you can also install this package from sources. First, obtain the source archive
 from `GitHub <https://github.com/diffpy/diffpy.srxconfutils/>`_.
 Install the packages in ``./requirements/conda.txt`` and ``./requirements/tests.txt``
-using the `--file`` command:
+using the ``--file`` command ::
 
     conda activate conf-env
     conda install --file ./requirements/conda.txt
