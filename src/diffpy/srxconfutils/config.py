@@ -577,7 +577,7 @@ class ConfigBase(object):
                 self._copySelftoConfig()
                 fileobj = FakeConfigFile(filename)
                 # self.config.read(filename)
-                self.config.readfp(fileobj)
+                self.config.read_file(fileobj)
                 self._copyConfigtoSelf()
                 self._updateSelf()
         return
