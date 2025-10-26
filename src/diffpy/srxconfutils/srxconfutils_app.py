@@ -7,7 +7,7 @@ def main():
     parser = argparse.ArgumentParser(
         prog="diffpy.srxconfutils",
         description=(
-            "Configuration utilities for dpx project. Part of xPDFsuite\n\n"
+            "Configuration utilities for project. Part of xPDFsuite\n"
             "For more information, visit: "
             "https://github.com/diffpy/diffpy.srxconfutils/"
         ),

@@ -11,7 +11,7 @@ authors = [
 maintainers = [
   { name="Simon J.L. Billinge group", email="sb2896@columbia.edu" },
 ]
-description = "Configuration utilities for dpx project. Part of xPDFsuite"
+description = "Configuration utilities for project. Part of xPDFsuite"
 keywords = ['diffpy', 'pdf', 'data interpretation']
 readme = "README.rst"
 requires-python = ">=3.11, <3.14"
@@ -20,7 +20,7 @@ classifiers = [
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
-        'License :: Free To Use But Restricted',
+        'License :: OSI Approved :: BSD License',
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX',
@@ -49,7 +49,7 @@ exclude = []  # exclude packages matching these glob patterns (empty by default)
 namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 
 [project.scripts]
-diffpy-srxconfutils = "diffpy.srxconfutils.app:main"
+diffpy-srxconfutils = "diffpy.srxconfutils.srxconfutils_app:main"
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements/pip.txt"]}
