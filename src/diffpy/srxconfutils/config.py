@@ -8,7 +8,7 @@
 # File coded by:    Xiaohao Yang
 #
 # See AUTHORS.rst for a list of people who contributed.
-# See LICENSENOTICE.rst for license information.
+# See LICENSE.rst for license information.
 #
 ##############################################################################
 """Package for organizing program configurations. It can read/write
