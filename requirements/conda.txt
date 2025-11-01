@@ -1,3 +1,8 @@
 numpy
 traits
 traitsui
+fabio
+pyface
+scipy
+pyfai
+matplotlib

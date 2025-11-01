@@ -51,6 +51,7 @@ namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 
 [project.scripts]
 diffpy-srxconfutils = "diffpy.srxconfutils.srxconfutils_app:main"
+diffpy-srxplanargui = "diffpy.srxplanargui.srxplanargui_app:main"
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements/pip.txt"]}
